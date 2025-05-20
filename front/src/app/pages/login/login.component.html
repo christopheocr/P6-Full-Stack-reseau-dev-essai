@@ -1,0 +1,28 @@
+<div class="container">
+  <header class="header">
+    <img src="/assets/logo.png" alt="Logo MDD" class="logo" />
+  </header>
+
+  <button class="back-button" (click)="goBack()">←</button>
+
+  <h2>Se connecter</h2>
+
+  <form (ngSubmit)="login()" #form="ngForm">
+    <input
+      type="text"
+      name="identifier"
+      [(ngModel)]="identifier"
+      placeholder="E-mail ou nom d'utilisateur"
+      required
+    />
+    <input
+      type="password"
+      name="password"
+      [(ngModel)]="password"
+      placeholder="Mot de passe"
+      required
+    />
+    <button type="submit" [disabled]="!form.form.valid">Se connecter</button>
+  </form>
+</div>
+

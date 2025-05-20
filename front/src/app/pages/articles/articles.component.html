@@ -1,0 +1,38 @@
+<header class="header">
+  <img src="/assets/logo.png" alt="MDD Logo" class="logo" />
+
+  <nav class="desktop-nav">
+    <a class="logout" (click)="logout()">Se déconnecter</a>
+    <a>Articles</a>
+    <a>Thèmes</a>
+    <img class="avatar" src="/assets/avatar.png" alt="avatar" />
+  </nav>
+
+  <button class="burger" (click)="toggleMenu()">☰</button>
+</header>
+
+<nav class="mobile-menu" *ngIf="menuOpen">
+  <a (click)="logout()">Se déconnecter</a>
+  <a>Articles</a>
+  <a>Thèmes</a>
+</nav>
+
+<main>
+  <button class="create-button">Créer un article</button>
+
+  <div class="sort-bar">
+    <span>Trier par</span> <span>↓</span>
+  </div>
+
+  <section class="article-list">
+    <article class="card" *ngFor="let a of articles">
+      <h3>{{ a.title }}</h3>
+      <div class="meta">
+        <span>{{ a.date }}</span>
+        <span>{{ a.author }}</span>
+      </div>
+      <p>{{ a.content }}</p>
+    </article>
+  </section>
+</main>
+
