@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +32,24 @@ public class User{
 
     public User() {
     }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_topics",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "topic_id")
+    )
+    @JsonIgnore
+    private List<Topic> followedTopics = new ArrayList<>();
+
+    public List<Topic> getFollowedTopics() {
+        return followedTopics;
+    }
+
+    public void setFollowedTopics(List<Topic> followedTopics) {
+        this.followedTopics = followedTopics;
+    }
+
 
 
 

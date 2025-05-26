@@ -3,6 +3,8 @@ package com.openclassrooms.mdd_api.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "comments")
 public class Comment {
@@ -11,13 +13,38 @@ public class Comment {
     @Column(name = "comment_id")
     private Long id;
 
-    // TODO : to finish...
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String content;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "author_id")
+    private User author;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+    // Getters & Setters
+    public Long getId() { return id; }
+
+    public void setId(Long id) { this.id = id; }
+
+    public String getContent() { return content; }
+
+    public void setContent(String content) { this.content = content; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public User getAuthor() { return author; }
+
+    public void setAuthor(User author) { this.author = author; }
+
+    public Post getPost() { return post; }
+
+    public void setPost(Post post) { this.post = post; }
 }

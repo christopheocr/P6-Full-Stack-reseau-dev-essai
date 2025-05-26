@@ -14,6 +14,13 @@ public class Topic {
     @Column(nullable = false)
     private String name;
 
+    public Topic() {
+    }
+
+    public Topic(String topicName) {
+        this.name = topicName;
+    }
+
     public Long getId() {
         return id;
     }
