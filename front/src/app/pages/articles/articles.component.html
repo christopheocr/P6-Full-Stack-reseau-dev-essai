@@ -3,9 +3,9 @@
 
   <nav class="desktop-nav">
     <a class="logout" (click)="logout()">Se déconnecter</a>
-    <a>Articles</a>
-    <a>Thèmes</a>
-    <img class="avatar" src="/assets/avatar.png" alt="avatar" />
+    <a>Articles !!!</a>
+    <!-- <a class="logout" (click)="logout()">Thèmes</a> -->
+    <button class="create-button" routerLink="/themes">Thèmes</button>
   </nav>
 
   <button class="burger" (click)="toggleMenu()">☰</button>
@@ -18,13 +18,14 @@
 </nav>
 
 <main>
-  <button class="create-button">Créer un article</button>
+
+  <button class="create-button" routerLink="/create-post">Créer un article</button>
 
   <div class="sort-bar">
     <span>Trier par</span> <span>↓</span>
   </div>
 
-  <section class="article-list">
+  <!-- <section class="article-list">
     <article class="card" *ngFor="let a of articles">
       <h3>{{ a.title }}</h3>
       <div class="meta">
@@ -33,6 +34,19 @@
       </div>
       <p>{{ a.content }}</p>
     </article>
-  </section>
+  </section> -->
+
+  <div *ngIf="posts.length === 0">Aucun article pour l’instant.</div>
+
+<ul>
+  <li *ngFor="let post of posts">
+    <h3>{{ post.title }}</h3>
+    <p><strong>Auteur :</strong> {{ post.authorName }}</p>
+    <p><strong>Topic :</strong> {{ post.topicName }}</p>
+    <p><em>{{ post.createdAt | date:'medium' }}</em></p>
+    <p>{{ post.content }}</p>
+    <hr />
+  </li>
+</ul>
 </main>
 

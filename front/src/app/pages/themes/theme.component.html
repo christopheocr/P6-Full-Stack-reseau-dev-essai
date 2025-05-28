@@ -1,0 +1,16 @@
+<h2>Thèmes disponibles</h2>
+
+<div class="themes-grid">
+  <div class="theme-card" *ngFor="let topic of topics">
+    <h3>{{ topic.name }}</h3>
+    <p>{{ topic.description || 'Description manquante...' }}</p>
+
+    <button
+      [disabled]="isFollowed(topic.id)"
+      (click)="toggleFollow(topic.id)"
+      [ngClass]="{ subscribed: isFollowed(topic.id) }">
+      {{ isFollowed(topic.id) ? 'Déjà abonné' : 'S’abonner' }}
+    </button>
+  </div>
+</div>
+

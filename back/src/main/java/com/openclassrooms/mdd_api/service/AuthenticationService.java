@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationService {
+
     private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
@@ -30,10 +31,17 @@ public class AuthenticationService {
     }
 
     public User signup(RegisterUserDto input) {
+        String password = input.getPassword();
+
+        if (!isPasswordValid(password)) {
+            throw new IllegalArgumentException("Le mot de passe est invalide. Il doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.");
+        }
+
         User user = new User();
         user.setName(input.getName());
         user.setEmail(input.getEmail());
-        user.setPassword(passwordEncoder.encode(input.getPassword()));
+        user.setPassword(passwordEncoder.encode(password));
+
         return userRepository.save(user);
     }
 
@@ -48,4 +56,14 @@ public class AuthenticationService {
                 .or(()-> userRepository.findByName(input.getLogin()))
                 .orElseThrow();
     }
+
+    private boolean isPasswordValid(String password) {
+        if (password.length() < 8) return false;
+        if (!password.matches(".*[A-Z].*")) return false;
+        if (!password.matches(".*[a-z].*")) return false;
+        if (!password.matches(".*\\d.*")) return false;
+        if (!password.matches(".*[^a-zA-Z0-9].*")) return false;
+        return true;
+    }
+
 }

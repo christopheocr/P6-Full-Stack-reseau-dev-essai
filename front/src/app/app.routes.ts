@@ -27,4 +27,16 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/articles/articles.component').then((m) => m.ArticlesComponent),
   },
+  {
+  path: 'create-post',
+  loadComponent: () => import('./pages/create/create-post.component').then(m => m.CreatePostComponent),
+  canActivate: [authGuard] // si tu protèges l’accès
+ },
+ {
+  path: 'themes',
+  loadComponent: () => import('./pages/themes/theme.component').then(m => m.ThemesComponent),
+  canActivate: [authGuard]
+}
+
+
 ];

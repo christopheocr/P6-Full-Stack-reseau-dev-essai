@@ -1,0 +1,12 @@
+<div class="form-container">
+  <h2>Créer un nouvel article</h2>
+
+  <form (ngSubmit)="createPost()">
+    <input type="text" placeholder="Sélectionner un thème" [(ngModel)]="topicName" name="topic" required />
+    <input type="text" placeholder="Titre de l’article" [(ngModel)]="title" name="title" required />
+    <textarea placeholder="Contenu de l’article" [(ngModel)]="content" name="content" rows="6" required></textarea>
+
+    <button type="submit">Créer</button>
+  </form>
+</div>
+
