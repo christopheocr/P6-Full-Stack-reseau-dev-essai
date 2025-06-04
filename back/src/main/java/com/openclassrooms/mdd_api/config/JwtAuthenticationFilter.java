@@ -1,5 +1,6 @@
 package com.openclassrooms.mdd_api.config;
 
+import com.openclassrooms.mdd_api.service.CustomUserDetailsService;
 import com.openclassrooms.mdd_api.service.JwtService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -20,7 +21,7 @@ import java.util.List;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailsService userDetailsService;
     private final HandlerExceptionResolver handlerExceptionResolver;
 
     private static final List<String> EXCLUDED_PATHS = List.of(
@@ -30,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     public JwtAuthenticationFilter(
             JwtService jwtService,
-            UserDetailsService userDetailsService,
+            CustomUserDetailsService userDetailsService,
             HandlerExceptionResolver handlerExceptionResolver
     ) {
         this.jwtService = jwtService;
@@ -76,6 +77,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return (authHeader != null && authHeader.startsWith("Bearer ")) ? authHeader.substring(7) : null;
     }
 
+    /*
     private void authenticateRequest(String jwt, HttpServletRequest request) {
         String userEmail = jwtService.extractUsername(jwt);
         if (userEmail == null || SecurityContextHolder.getContext().getAuthentication() != null) {
@@ -83,6 +85,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+        if (jwtService.isTokenValid(jwt, userDetails)) {
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                    userDetails, null, userDetails.getAuthorities()
+            );
+            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+        }
+    }
+
+     */
+
+    private void authenticateRequest(String jwt, HttpServletRequest request) {
+        String userIdStr = jwtService.extractSubject(jwt);
+        if (userIdStr == null || SecurityContextHolder.getContext().getAuthentication() != null) {
+            return;
+        }
+
+        int userId;
+        try {
+            userId = Integer.parseInt(userIdStr);
+        } catch (NumberFormatException e) {
+            return; // token invalide (subject non numérique)
+        }
+
+        UserDetails userDetails = userDetailsService.loadUserById(userId); // méthode à ajouter si pas encore faite
+
         if (jwtService.isTokenValid(jwt, userDetails)) {
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.getAuthorities()

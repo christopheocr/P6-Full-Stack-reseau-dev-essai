@@ -22,6 +22,7 @@ public class PostController {
         return postService.createPost(dto);
     }
 
+    /*
     @GetMapping
     public List<PostResponseDto> getPostsByTopics(
             @RequestParam List<String> topics,
@@ -29,6 +30,7 @@ public class PostController {
     ) {
         return postService.getPostsByTopics(topics, sort);
     }
+     */
 
     @GetMapping("/followed")
     public List<PostResponseDto> getPostsFromFollowedTopics() {

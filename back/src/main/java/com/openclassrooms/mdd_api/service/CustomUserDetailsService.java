@@ -5,7 +5,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import com.openclassrooms.mdd_api.model.User;
 import com.openclassrooms.mdd_api.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +22,11 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .or(() -> userRepository.findByName(login))
                 .map(UserDetailsImpl::new)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé : " + login));
+    }
+
+    public UserDetails loadUserById(int id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
+        return new UserDetailsImpl(user);
     }
 }

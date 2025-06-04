@@ -34,6 +34,7 @@ public class UserService {
         }
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        System.out.println(userDetails.getUsername());
         return userDetails.getUser();
     }
 

@@ -3,6 +3,7 @@ package com.openclassrooms.mdd_api.service;
 
 import com.openclassrooms.mdd_api.model.User;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -28,6 +29,19 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
+    public String extractSubject(String token) {
+        JwtParser parser = Jwts.parser()
+                .verifyWith(getSignInKey())
+                .build();
+
+        return parser.parseSignedClaims(token)
+                .getPayload()
+                .getSubject();
+    }
+
+
+
+
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
@@ -35,10 +49,10 @@ public class JwtService {
 
     public String generateToken(User user) {
         return generateToken(Map.of(
-                "id", user.getId(),
-                "name", user.getName(),
-                "email", user.getEmail()
-        ), user.getEmail());
+                "id", user.getId()//,
+             //   "name", user.getName(),
+             //   "email", user.getEmail()
+        ), String.valueOf(user.getId()));
     }
 
     public String generateToken(Map<String, Object> extraClaims, String subject) {
@@ -72,7 +86,6 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
         return !isTokenExpired(token);
     }
 
@@ -99,19 +112,26 @@ public class JwtService {
     }
 
     public String generateTokenFromUser(User user) {
+        /*
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", user.getId());
         claims.put("name", user.getName());
         claims.put("email", user.getEmail());
 
+         */
+
         return Jwts
                 .builder()
-                .claims(claims)
-                .subject(user.getEmail())
+                //.claims(claims)
+               // .subject(user.getEmail())
+                .subject(String.valueOf(user.getId()))
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSignInKey())
                 .compact();
     }
+
+
+
 
 }

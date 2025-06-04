@@ -46,6 +46,7 @@ public class UserController {
                 .toList();
     }
 
+    /*
     @PutMapping
     public ResponseEntity<LoginResponseDto> updateMe(@RequestBody UpdateUserDto dto) {
         userService.updateCurrentUser(dto, passwordEncoder);
@@ -54,6 +55,14 @@ public class UserController {
         loginResponse.setToken(jwtService.generateToken(updatedUser));
         return ResponseEntity.ok(loginResponse);
     }
+
+     */
+    @PutMapping
+    public ResponseEntity<Void> updateMe(@RequestBody UpdateUserDto dto) {
+        userService.updateCurrentUser(dto, passwordEncoder);
+        return ResponseEntity.noContent().build(); // HTTP 204
+    }
+
 
 
 
