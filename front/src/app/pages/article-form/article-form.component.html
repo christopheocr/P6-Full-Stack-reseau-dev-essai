@@ -1,0 +1,22 @@
+<app-navbar></app-navbar>
+<div class="page-container">
+  <div class="back" (click)="goBack()">←</div>
+
+  <div class="form-wrapper">
+    <h2>Créer un nouvel article</h2>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <select class="input" formControlName="topicName" required>
+        <option value="" disabled selected>Sélectionner un thème</option>
+        <option *ngFor="let topic of topics" [value]="topic.name">{{ topic.name }}</option>
+      </select>
+
+      <input class="input" type="text" formControlName="title" placeholder="Titre de l’article" required />
+
+      <textarea class="input" rows="6" formControlName="content" placeholder="Contenu de l’article" required></textarea>
+
+      <button type="submit" class="submit-button">Créer</button>
+    </form>
+  </div>
+</div>
+

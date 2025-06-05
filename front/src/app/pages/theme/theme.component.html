@@ -1,0 +1,15 @@
+<app-navbar></app-navbar>
+
+<div class="theme-container">
+  <div class="topic-card" *ngFor="let topic of topics">
+    <h3>{{ topic.name }}</h3>
+    <p>{{ topic.description }}</p>
+    <button 
+  class="subscribe-button" 
+  [class.subscribed]="isSubscribed(topic)"
+  (click)="toggleSubscription(topic)">
+  {{ isSubscribed(topic) ? 'Déjà abonné' : "S'abonner" }}
+</button>
+  </div>
+</div>
+

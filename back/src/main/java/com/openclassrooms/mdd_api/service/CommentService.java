@@ -26,6 +26,7 @@ public class CommentService implements ICommentService{
 
     @Override
     public CommentResponseDto createComment(CommentRequestDto dto) {
+        System.out.println("creation commentaire");
         Post post = postRepository.findById(dto.postId)
                 .orElseThrow(() -> new IllegalArgumentException("Post not found"));
 
@@ -44,6 +45,7 @@ public class CommentService implements ICommentService{
 
     @Override
     public List<CommentResponseDto> getCommentsForPost(Long postId) {
+        System.out.println("recuperation commentaire"+postId);
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("Post not found"));
 

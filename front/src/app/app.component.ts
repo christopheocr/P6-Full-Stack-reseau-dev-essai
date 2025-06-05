@@ -1,12 +1,35 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from './services/auth.service';
+import { Location } from '@angular/common';
+
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'mdd-client';
+export class AppComponent implements OnInit {
+  constructor(private authService: AuthService, private router: Router,
+  private location: Location) {}
+
+ngOnInit(): void {
+  const currentUrl = this.location.path();
+  const token = this.authService.getToken();
+
+  if (token && !this.authService.isTokenValid()) {
+    this.authService.removeToken();
+    this.router.navigate(['/']);
+  }
+
+  if (token && this.authService.isTokenValid() && currentUrl === '') {
+    this.router.navigate(['/articles']);
+  }
 }
+
+
+
+
+}
+

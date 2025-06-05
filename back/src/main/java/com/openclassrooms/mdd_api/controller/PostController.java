@@ -37,6 +37,12 @@ public class PostController {
         return postService.getPostsForCurrentUser();
     }
 
+    @GetMapping("/{id}")
+    public PostResponseDto getPostById(@PathVariable Long id) {
+        return postService.getPostById(id);
+    }
+
+
 
 
 

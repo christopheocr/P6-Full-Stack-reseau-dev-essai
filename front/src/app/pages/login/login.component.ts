@@ -1,41 +1,53 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  standalone: true,
   selector: 'app-login',
-  imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-identifier = '';
-  password = '';
+export class LoginComponent implements OnInit {
+  form!: FormGroup;
+  loginError: string | null = null;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
-  goBack() {
-    this.router.navigate(['/']);
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      identifier: ['', Validators.required],
+      password: ['', Validators.required]
+    });
   }
 
-  login() {
-     const payload = {
-      login: this.identifier,
-      password: this.password,
-    };
+  submit(): void {
+    if (this.form.valid) {
+      const credentials = {
+        login: this.form.value.identifier,
+        password: this.form.value.password
+      };
 
-    this.http.post<{ token: string }>('http://localhost:9000/auth/login', payload).subscribe({
-      next: (response) => {
-        localStorage.setItem('token', response.token);
-        this.router.navigate(['/articles']);
-      },
-      error: (err) => {
-        console.error('Erreur de connexion :', err);
-        alert('Identifiants invalides.');
-      },
-    });
+      this.authService.login(credentials).subscribe({
+        next: (response) => {
+          if (response.status === 200 && response.body?.token) {
+            localStorage.setItem('Token', response.body.token);
+            this.router.navigate(['/articles']);
+          }
+        },
+        error: (error) => {
+          this.loginError = 'Identifiants invalides. Veuillez réessayer.';
+          console.error('Erreur lors de la connexion', error);
+        }
+      });
+    }
+  }
+
+  goBack(): void {
+    this.router.navigate(['/']);
   }
 }

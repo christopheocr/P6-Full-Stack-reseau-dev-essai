@@ -1,0 +1,24 @@
+<app-navbar></app-navbar>
+<div class="profile-container">
+  <h2>Profil utilisateur</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <input class="input" type="text" formControlName="username" placeholder="Username" required />
+    <input class="input" type="email" formControlName="email" placeholder="email@email.fr" required />
+    <input class="input" type="password" formControlName="password" placeholder="Mot de passe" />
+    <button type="submit" class="save-button">Sauvegarder</button>
+  </form>
+
+  <hr class="divider" />
+
+  <h2>Abonnements</h2>
+
+  <div class="subscriptions">
+    <div class="theme-card" *ngFor="let topic of subscribedTopics">
+      <h4>{{ topic.name }}</h4>
+      <p>{{ topic.description }}</p>
+      <button class="unsubscribe-button" (click)="unsubscribe(topic.name)">Se désabonner</button>
+    </div>
+  </div>
+</div>
+

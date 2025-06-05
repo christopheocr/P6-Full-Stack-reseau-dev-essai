@@ -1,0 +1,31 @@
+.article-card {
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+}
+
+.article-card.selected {
+  border-color: #7f5af0;
+}
+
+.article-card h3 {
+  margin: 0 0 8px 0;
+}
+
+.article-card .meta {
+  font-size: 0.9em;
+  color: #666;
+  display: flex;
+  gap: 15px;
+  margin-bottom: 10px;
+  justify-content: flex-start;
+}
+
+.article-card .content {
+  font-size: 1em;
+  color: #333;
+}

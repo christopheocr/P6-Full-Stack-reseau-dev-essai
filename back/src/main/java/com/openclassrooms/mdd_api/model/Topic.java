@@ -14,6 +14,9 @@ public class Topic {
     @Column(nullable = false)
     private String name;
 
+
+    private String description;
+
     public Topic() {
     }
 
@@ -35,5 +38,13 @@ public class Topic {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -1,53 +1,57 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
-import { Post } from '../../models/post';
-import { PostService } from '../../services/post.service';
-
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ArticleService } from '../../services/article.service';
+import { Article } from '../../models/article.model';
 
 @Component({
   selector: 'app-articles',
-  standalone: true,
-  imports: [CommonModule,RouterModule],
   templateUrl: './articles.component.html',
   styleUrls: ['./articles.component.css']
 })
-export class ArticlesComponent {
- menuOpen = false;
- posts: Post[] = [];
+export class ArticlesComponent implements OnInit {
+  articles: Article[] = [];
+  selectedArticleIndex = 0;
+  sortDescending = true;
 
- constructor(private router: Router,private authService: AuthService,private postService: PostService) {}
 
-  // articles = [
-  //   {
-  //     title: 'Titre de l’article',
-  //     date: '01/01/2025',
-  //     author: 'Alice',
-  //     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt...',
-  //   },
-  //   {
-  //     title: 'Titre de l’article',
-  //     date: '02/01/2025',
-  //     author: 'Bob',
-  //     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt...',
-  //   },
-  // ];
+  constructor(private router: Router, private articleService: ArticleService) {}
 
   ngOnInit(): void {
-    this.postService.getFollowedPosts().subscribe({
-      next: (data) => this.posts = data,
-      error: (err) => console.error('Erreur chargement posts :', err)
+    this.loadArticles();
+  }
+
+  loadArticles(): void {
+    this.articleService.getFollowedPosts().subscribe({
+      next: (articles) => this.articles = articles,
+      error: (err) => console.error('Erreur chargement articles', err)
     });
   }
 
-
-  logout() {
-    this.authService.logout();
+  selectArticle(index: number): void {
+    this.selectedArticleIndex = index;
   }
 
-  toggleMenu() {
-    this.menuOpen = !this.menuOpen;
+  onCreateArticle(): void {
+    this.router.navigate(['/article-form']);
   }
+
+  onSortToggle(): void {
+     this.sortDescending = !this.sortDescending;
+
+  this.articles.sort((a, b) => {
+    const dateA = new Date(a.createdAt).getTime();
+    const dateB = new Date(b.createdAt).getTime();
+
+    return this.sortDescending ? dateB - dateA : dateA - dateB;
+  });
+  }
+
+  openArticle(id: number): void {
+    this.router.navigate(['/article', id]);
+  }
+
+  goToThemes(): void {
+  this.router.navigate(['/theme']);
+}
 
 }

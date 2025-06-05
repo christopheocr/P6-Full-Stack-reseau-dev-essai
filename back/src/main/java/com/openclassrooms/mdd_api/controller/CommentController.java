@@ -18,11 +18,13 @@ public class CommentController {
 
     @PostMapping
     public CommentResponseDto createComment(@RequestBody CommentRequestDto dto) {
+        System.out.println("createComment");
         return commentService.createComment(dto);
     }
 
     @GetMapping("/{postId}")
     public List<CommentResponseDto> getComments(@PathVariable Long postId) {
+        System.out.println("getComments");
         return commentService.getCommentsForPost(postId);
     }
 }

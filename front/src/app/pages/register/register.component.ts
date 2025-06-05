@@ -1,43 +1,52 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-register',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
-  username = '';
-  email = '';
-  password = '';
+export class RegisterComponent implements OnInit {
+  form!: FormGroup;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
-  goBack() {
-    this.router.navigate(['/']);
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
   }
 
-  register() {
-    const payload = {
-      email: this.email,
-      name: this.username,
-      password: this.password,
-    };
+  submit(): void {
+    if (this.form.valid) {
+      const payload = {
+        name: this.form.value.username,
+        email: this.form.value.email,
+        password: this.form.value.password
+      };
 
-    this.http.post('http://localhost:9000/auth/register', payload).subscribe({
-      next: () => {
-        // ✅ Redirection après succès
-        this.router.navigate(['/login']);
-      },
-      error: (err) => {
-        console.error('Erreur lors de l’inscription', err);
-        alert('Inscription échouée. Vérifie les données.');
-      },
-    });
+      this.authService.register(payload).subscribe({
+        next: (response) => {
+          if (response.status === 201) {
+            this.router.navigate(['/login']);
+          }
+        },
+        error: (error) => {
+          console.error('Erreur lors de l’inscription', error);
+        }
+      });
+    }
+  }
+
+  goBack(): void {
+    this.router.navigate(['/']);
   }
 }

@@ -1,0 +1,8 @@
+<div class="article-card" [class.selected]="selected">
+  <h3>{{ article.title }}</h3>
+  <div class="meta">
+    <span class="date">{{ article.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+    <span class="author">{{ article.authorName }}</span>
+  </div>
+  <p class="content">{{ article.content }}</p>
+</div>

@@ -71,6 +71,14 @@ public class PostService implements IPostService{
                 .toList();
     }
 
+    @Override
+    public PostResponseDto getPostById(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Post not found with id " + id));
+        return mapToDto(post);
+    }
+
+
 
 
 

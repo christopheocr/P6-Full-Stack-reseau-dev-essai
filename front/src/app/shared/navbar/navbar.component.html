@@ -1,0 +1,57 @@
+<nav class="navbar">
+  <div class="logo">
+    <img src="assets/logo.png" alt="Logo MDD" />
+  </div>
+
+  <div class="nav-right desktop-only">
+    <button class="logout-button" (click)="logout()">Se déconnecter</button>
+    <a 
+  [routerLink]="'/articles'" 
+  [class.active]="currentRoute === '/articles'" 
+  [class.disabled]="currentRoute === '/articles'">
+  Articles
+</a>
+
+<a 
+  [routerLink]="'/theme'" 
+  [class.active]="currentRoute === '/theme'" 
+  [class.disabled]="currentRoute === '/theme'">
+  Thèmes
+</a>
+
+<a 
+  [routerLink]="'/profile'" 
+  [class.avatar-active]="currentRoute === '/profile'">
+  <img src="assets/user-avatar.png" alt="Utilisateur" class="user-avatar" />
+</a>
+
+  </div>
+
+  <div class="mobile-menu-icon mobile-only" (click)="toggleMobileMenu()">
+    &#9776;
+  </div>
+
+  <div class="side-menu" [class.open]="isMobileMenuOpen">
+    <button class="close-btn" (click)="toggleMobileMenu()">×</button>
+    <button class="logout-button" (click)="logout(); toggleMobileMenu()">Se déconnecter</button>
+     <a 
+  [routerLink]="'/articles'" 
+  [class.active]="currentRoute === '/articles'" 
+  [class.disabled]="currentRoute === '/articles'">
+  Articles
+</a>
+
+<a 
+  [routerLink]="'/theme'" 
+  [class.active]="currentRoute === '/theme'" 
+  [class.disabled]="currentRoute === '/theme'">
+  Thèmes
+</a>
+
+<a 
+  [routerLink]="'/profile'" 
+  [class.avatar-active]="currentRoute === '/profile'">
+  <img src="assets/user-avatar.png" alt="Utilisateur" class="user-avatar" />
+</a>
+  </div>
+</nav>

@@ -3,38 +3,32 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  padding: 1rem;
+  min-height: 100vh;
+  padding: 20px;
+  text-align: center;
 }
 
 .logo {
-  width: 150px;
-  max-width: 60%;
-  margin-bottom: 2rem;
+  width: 320px;
+  max-width: 90%;
+  margin-bottom: 40px;
 }
 
-.button-group {
+.buttons {
   display: flex;
-  gap: 1rem;
+  flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-}
-
-button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  border: 1px solid black;
-  background-color: white;
-  border-radius: 6px;
-  cursor: pointer;
+  gap: 20px;
 }
 
 @media (max-width: 600px) {
-  .button-group {
+  .buttons {
     flex-direction: column;
+    align-items: center;
   }
 
-  button {
-    width: 100%;
+  .logo {
+    width: 220px;
   }
 }

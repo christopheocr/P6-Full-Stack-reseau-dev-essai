@@ -12,4 +12,7 @@ public interface IPostService {
     List<PostResponseDto> getPostsByTopics(List<String> topicNames, String sortDirection);
 
     List<PostResponseDto> getPostsForCurrentUser();
+
+    PostResponseDto getPostById(Long id);
+
 }

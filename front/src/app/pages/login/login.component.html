@@ -1,28 +1,28 @@
-<div class="container">
-  <header class="header">
-    <img src="/assets/logo.png" alt="Logo MDD" class="logo" />
-  </header>
+<div class="login-wrapper">
+  <div class="header">
+    <img src="assets/logo.png" class="logo-desktop" />
+  </div>
 
-  <button class="back-button" (click)="goBack()">←</button>
+  <div class="login-container">
+    <div class="back" (click)="goBack()">←</div>
+    <img src="assets/logo.png" class="logo-mobile" />
+    <h2>Se connecter</h2>
 
-  <h2>Se connecter</h2>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="field">
+    <label>E-mail ou nom d'utilisateur</label>
+    <input type="text" formControlName="identifier" />
+  </div>
 
-  <form (ngSubmit)="login()" #form="ngForm">
-    <input
-      type="text"
-      name="identifier"
-      [(ngModel)]="identifier"
-      placeholder="E-mail ou nom d'utilisateur"
-      required
-    />
-    <input
-      type="password"
-      name="password"
-      [(ngModel)]="password"
-      placeholder="Mot de passe"
-      required
-    />
-    <button type="submit" [disabled]="!form.form.valid">Se connecter</button>
-  </form>
+  <div class="field">
+    <label>Mot de passe</label>
+    <input type="password" formControlName="password" />
+  </div>
+
+  <div *ngIf="loginError" class="error-message">{{ loginError }}</div>
+
+  <button type="submit" class="submit-button">Se connecter</button>
+</form>
+
+  </div>
 </div>
-

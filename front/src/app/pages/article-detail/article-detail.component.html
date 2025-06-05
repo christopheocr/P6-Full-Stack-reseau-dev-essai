@@ -1,0 +1,54 @@
+<app-navbar></app-navbar>
+
+<div *ngIf="article; else loading">
+  <div class="back" (click)="goBack()">←</div>
+  <h2>Titre de l'article sélectionné</h2>
+
+  <p><strong>Date</strong> {{ article.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
+
+  <p><strong>Auteur</strong> {{ article.authorName }}</p>
+  <p><strong>Thème</strong> {{ article.topicName }}</p>
+
+  <p>Content: {{ article.content }}</p>
+
+  <hr />
+
+  <h3>Commentaires</h3>
+<div *ngIf="comments.length > 0; else noComments">
+  <div *ngFor="let comment of comments" class="comment-wrapper">
+    <span class="comment-author">{{ comment.authorName }}</span>
+    <div class="comment-bubble">
+      {{ comment.content }}
+    </div>
+  </div>
+</div>
+
+<ng-template #noComments>
+  <p>Aucun commentaire pour le moment.</p>
+</ng-template>
+
+
+
+
+
+  <textarea
+  [(ngModel)]="commentContent"
+  name="comment"
+  placeholder="Écrivez ici votre commentaire"
+  rows="3"
+  class="comment-input"
+></textarea>
+
+<img
+  src="assets/arrow.png"
+  alt="Envoyer"
+  (click)="submitComment()"
+  class="send-button"
+/>
+
+
+</div>
+
+<ng-template #loading>
+  <p>Chargement...</p>
+</ng-template>

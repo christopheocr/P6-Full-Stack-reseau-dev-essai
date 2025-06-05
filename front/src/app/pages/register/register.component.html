@@ -1,34 +1,30 @@
-<div class="container">
-  <header class="header">
-    <img src="/assets/logo.png" alt="Logo MDD" class="logo" />
-  </header>
+<div class="register-wrapper">
+  <div class="header">
+    <img src="assets/logo.png" class="logo-desktop" />
+  </div>
 
-  <button class="back-button" (click)="goBack()">←</button>
+  <div class="register-container">
+    <div class="back" (click)="goBack()">←</div>
+    <img src="assets/logo.png" class="logo-mobile" />
+    <h2>Inscription</h2>
 
-  <h2>Inscription</h2>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="field">
+        <label>Nom d'utilisateur</label>
+        <input type="text" formControlName="username" />
+      </div>
 
-  <form (ngSubmit)="register()" #form="ngForm">
-    <input
-      type="text"
-      name="username"
-      [(ngModel)]="username"
-      placeholder="Nom d'utilisateur"
-      required
-    />
-    <input
-      type="email"
-      name="email"
-      [(ngModel)]="email"
-      placeholder="Adresse e-mail"
-      required
-    />
-    <input
-      type="password"
-      name="password"
-      [(ngModel)]="password"
-      placeholder="Mot de passe"
-      required
-    />
-    <button type="submit" [disabled]="!form.form.valid">S'inscrire</button>
-  </form>
+      <div class="field">
+        <label>Adresse e-mail</label>
+        <input type="email" formControlName="email" />
+      </div>
+
+      <div class="field">
+        <label>Mot de passe</label>
+        <input type="password" formControlName="password" />
+      </div>
+
+      <button type="submit" class="submit-button">S'inscrire</button>
+    </form>
+  </div>
 </div>
